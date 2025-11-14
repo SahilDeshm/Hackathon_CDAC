@@ -44,4 +44,27 @@ router.post('/login' , async(req, res) => {
 
 })
 
+
+router.put('/update-profile', async (req, res) => {
+    const { email, first_name, last_name, mobile, birth } = req.body;
+
+    const checkSql = 'SELECT * FROM users WHERE email = ?';
+    pool.query(checkSql, [email], (err, data) => {  
+        if (err || data.length === 0) {
+            return res.send(result.createResult(err || { message: 'User not found' }, null));
+        }
+
+        const updateSql = `
+            UPDATE users 
+            SET first_name = ?, last_name = ?, mobile = ?, birth = ? 
+            WHERE email = ?
+        `;
+        pool.query(updateSql, [first_name, last_name, mobile, birth, email], (err, updateData) => {
+            res.send(result.createResult(err, updateData));
+        });
+    });
+});   
+
+
+
 module.exports = router

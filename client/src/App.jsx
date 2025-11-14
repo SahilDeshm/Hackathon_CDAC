@@ -5,6 +5,7 @@ import { Register } from "./pages/Register";
 import { Login } from "./pages/Login1";
 import ShiftingContactForm from "./pages/Create_Review";
 import FlipNavWrapper from "./Navbar/Navbar";
+import ShuffleSortTable from "./pages/Display_Movies";
 function App() {
      return(
       <Router>
@@ -13,7 +14,8 @@ function App() {
           <Route path="/login" element={<Login/>} />
           <Route path="/create_review" element={<ShiftingContactForm />}/>
           <Route path = "/register" element={<Register/>} /> 
-          <Route path = "/home" element={<FlipNavWrapper/>} /> 
+          <Route path = "/navbar" element={<FlipNavWrapper/>} /> 
+          <Route path = "/allmovies" element={<ShuffleSortTable/>} /> 
         </Routes>
       </Router>
      )

@@ -27,6 +27,20 @@ router.put('/updateReview', async (req, res) => {
     });
 });   
 
+router.get("/getAllReview" , async(req , res) => {
+    const sql = 'select * from reviews';
+    pool.query(sql , (err , data) => {
+        res.send(result.createResult(err , data))
+    })
+})
+
+router.get("/getReviewByUser" , async(req , res) => {
+    const {user_id} = req.body;
+    const sql = 'select * from reviews where  user_id=?'
+    pool.query(sql  , [user_id] , (error , data) => {
+        res.send(result.createResult(error, data))
+    })
+})
 
 router.delete('/:review_id', (req, res) => {
     const { review_id } = req.params;

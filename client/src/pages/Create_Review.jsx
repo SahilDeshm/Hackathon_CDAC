@@ -1,21 +1,33 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { div } from "framer-motion/client";
 import { useState } from "react";
+import FlipNavWrapper from "../Navbar/Navbar";
 
 const ShiftingContactForm = () => {
   const [selected, setSelected] = useState("individual");
+  const onSubmitForn =() => {
+
+  }
   return (
-    <section className="p-4 bg-slate-100">
+    <div>
+      <FlipNavWrapper />
+       <section className="p-4 bg-slate-100">
       <div className="w-full max-w-6xl mx-auto shadow-lg flex flex-col-reverse lg:flex-row rounded-lg overflow-hidden">
+        
         <Form selected={selected} setSelected={setSelected} />
         <Images selected={selected} />
       </div>
     </section>
+    </div>
+   
   );
 };
 
 const Form = ({ selected, setSelected }) => {
   return (
-    <form
+    <div>
+     
+          <form
       onSubmit={(e) => e.preventDefault()}
       className={`p-8 w-full text-white transition-colors duration-[750ms] ${
         selected === "company" ? "bg-indigo-600" : "bg-violet-600"
@@ -95,10 +107,13 @@ const Form = ({ selected, setSelected }) => {
             ? "bg-white text-indigo-600"
             : "bg-white text-violet-600"
         } transition-colors duration-[750ms] text-lg text-center rounded-lg w-full py-3 font-semibold`}
+    
       >
         Submit
       </motion.button>
     </form>
+    </div>
+
   );
 };
 

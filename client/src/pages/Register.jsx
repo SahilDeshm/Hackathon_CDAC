@@ -49,7 +49,7 @@ const Form = () => {
         
           toast.success('Successfully registered user');
           // go to the Login page
-          navigate('/');
+          navigate('/login');
         } else {
           toast.error(response['error']);
         }

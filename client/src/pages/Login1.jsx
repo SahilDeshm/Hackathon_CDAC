@@ -33,7 +33,7 @@ const Form = () => {
 
         // get the token from response and cache it in local storage
         localStorage.setItem('token', response['data']['token'])
-        localStorage.setItem('user_id', response['data']['user_id'])
+        localStorage.setItem('email', response['data']['email'])
         // localStorage.setItem('firstName', response['data']['firstName'])
         // localStorage.setItem('lastName', response['data']['lastName'])
 
@@ -44,7 +44,7 @@ const Form = () => {
         // })
 
         // navigate to the PropertyListing page
-        navigate('/create_review')
+        navigate('/allmovies')
       } else {
         toast.error(response['error'])
       }

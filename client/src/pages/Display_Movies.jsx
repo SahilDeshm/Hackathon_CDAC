@@ -2,11 +2,15 @@ import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import { useEffect, useState } from "react"; // Import useState and useEffect
 import { displayallmovies } from "../services/movies"; // Correct service import
+import FlipNavWrapper from "../Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
+
 
 const ColorChangeCards = () => {
+
   // Rename state variable to a more appropriate name, e.g., 'movies'
   const [movies, setMovies] = useState([]);
-
+  
   // Use a different function name for the local handler to avoid naming conflict
 const fetchMovies = async () => {
     const response = await displayallmovies();
@@ -34,33 +38,43 @@ const fetchMovies = async () => {
   ];
   
   return (
+    <div>
+      <FlipNavWrapper/>
     <div className="p-4 md:p-8 bg-slate-100">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 w-full max-w-6xl mx-auto">
         {/* Map over the 'movies' array to render the Card components */}
         {movies.length > 0 ? (
           movies.map((movie, index) => (
             <Card
-              key={movie.movie_id} // Use a unique key
-              heading={movie.title} // Use the movie title
-              description={`Released: ${new Date(movie.release_date).toDateString()}`} // Format the date for description
-              imgSrc={placeholderImages[index % placeholderImages.length]} // Cycle through placeholder images
-            />
+            key={movie.movie_id}
+            heading={movie.title}
+            description={`Released: ${new Date(movie.release_date).toDateString()}`}
+            imgSrc={placeholderImages[index % placeholderImages.length]}
+            movieId={movie.movie_id} // Pass the movie_id here
+/>   
           ))
         ) : (
           <p>Loading movies or no movies found...</p>
         )}
       </div>
     </div>
+    </div>
+    
   );
 };
 
 // Card and ShiftLetter components remain unchanged
-const Card = ({ heading, description, imgSrc }) => {
+const Card = ({ heading, description, imgSrc, movieId }) => {
+  const navigate = useNavigate();
+  const addReview = () => {
+    localStorage.setItem("selectedMovieId", movieId);
+    console.log("Movie ID stored:", movieId);
+    navigate('/create_review'); // Optional: for debugging
+  };
+
   return (
     <motion.div
-      transition={{
-        staggerChildren: 0.035,
-      }}
+      transition={{ staggerChildren: 0.035 }}
       whileHover="hover"
       className="w-full h-64 bg-slate-300 overflow-hidden cursor-pointer group relative"
     >
@@ -75,17 +89,23 @@ const Card = ({ heading, description, imgSrc }) => {
       <div className="p-4 relative z-20 h-full text-slate-300 group-hover:text-white transition-colors duration-500 flex flex-col justify-between">
         <FiArrowRight className="text-3xl group-hover:-rotate-45 transition-transform duration-500 ml-auto" />
         <div>
-          <h4 className="text-3xl font-semibold"> {/* Added utility classes for better styling */}
+          <h4 className="text-3xl font-semibold">
             {heading.split("").map((l, i) => (
               <ShiftLetter letter={l} key={i} />
             ))}
           </h4>
           <p>{description}</p>
         </div>
+        <button
+          className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          onClick={addReview}
+        >
+          Add Review
+        </button>
       </div>
     </motion.div>
   );
-};
+};   
 
 const ShiftLetter = ({ letter }) => {
   return (
